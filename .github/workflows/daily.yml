@@ -1,0 +1,19 @@
+name: Daily Empty Commit
+
+on:
+  schedule:
+    - cron: '0 15 * * *'   # 日本時間 0:00
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit --allow-empty -m "daily empty commit $(date -u +%F)"
+          git push
